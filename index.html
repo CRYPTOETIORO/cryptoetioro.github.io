@@ -3,98 +3,471 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Site Under Construction</title>
-<!-- Google Fonts for a modern style -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+<title>ETIORO - User-to-user e-money with Web3 technology of BitcoinCash</title>
+<!-- Favicon agregado -->
+<link rel="icon" href="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" type="image/png" />
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" />
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
-  /* Basic styles and font */
-  body, html {
+  /* Basic Reset */
+  * {
     margin: 0;
     padding: 0;
-    height: 100%;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #333;
+  }
+
+  /* Fixed header with logo and animation */
+  header {
+    background-color: #ffffff;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.5s, box-shadow 0.3s;
+  }
+
+  /* Logo and title */
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-container img {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  header h1 {
+    color: #222;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  /* Navigation */
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  nav a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  nav a:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+  }
+
+  /* Content with top padding to avoid overlap with fixed header */
+  .content {
+    padding-top: 120px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  /* Main banner */
+  .hero {
+    background: #f9f9f9;
+    color: #222;
+    padding: 80px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .hero h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }
+
+  .hero p {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Swap button */
+  .swap-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  .swap-btn:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+  }
+
+  /* "What is XRPL?" section and modules */
+  section#about {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: #ffffff;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    flex-wrap: wrap;
+  }
+
+  /* Text of the section */
+  .about-text {
+    width: 65%;
+  }
+
+  /* Token logo */
+  .token-logo {
+    width: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  /* Main container with animation */
-  .interstitial {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 30px 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    animation: fadeInUp 1s ease-out;
+  .token-logo img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
-  /* Heading with entrance effect */
-  h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
+  /* Separate module */
+  .custom-module {
+    background-color: #e0f7fa;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: 2px solid #00bcd4;
+  }
+
+  .custom-module h3 {
+    margin-bottom: 10px;
+    color: #006064;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .custom-module p {
+    font-size: 16px;
     color: #333;
-    animation: slideIn 1s ease-out;
   }
 
-  /* Paragraph with effect and delay for synchronization */
-  p {
-    font-size: 1.2em;
+  /* Additional logos */
+  .logos-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .logo-item {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Movement animation for logos */
+    animation: move 3s infinite alternate ease-in-out;
+  }
+
+  .logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    transition: transform 0.3s, filter 0.3s;
+  }
+
+  /* Animation for floating columns */
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Column movement animation */
+  .columnas {
+    display: flex;
+    justify-content: space-around; /* Space between columns */
+    align-items: stretch;
+    gap: 20px; /* Space between columns on large screens */
+    flex-wrap: nowrap; /* Keep in line on large screens */
+    animation: float 4s ease-in-out infinite; /* Float animation */
+  }
+
+  .columna {
+    flex: 1 1 30%; /* Each column roughly 30% width */
+    max-width: 30%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  /* Responsive styles */
+  @media(max-width: 768px){
+    section#about {
+      flex-direction: column;
+    }
+    .about-text, .token-logo {
+      width: 100%;
+      text-align: center;
+    }
+    #columnas .columnas {
+      flex-direction: column;
+    }
+    .columnas {
+      animation: none; /* Remove animation on small screens */
+    }
+  }
+
+  /* Style for centered and larger "Our Features" title */
+  #columnas h2.section-title {
+    text-align: center;
+    font-size: 28px; /* Larger size */
+    margin-top: 40px; /* More top spacing */
+    margin-bottom: 20px; /* Bottom spacing */
+  }
+
+  /* Footer styling */
+  footer {
+    background-color: #f9f9f9;
     color: #555;
-    animation: fadeIn 1.5s ease-in;
-    animation-delay: 0.5s;
-    animation-fill-mode: both;
+    padding: 20px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  footer a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
   }
 
-  /* Animations */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* Social media section */
+  #redes-sociales {
+    background-color: #f9f9f9;
+    padding: 30px 20px;
+    text-align: center;
   }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  #redes-sociales h2 {
+    margin-bottom: 20px;
+    color: #222;
   }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  #redes-sociales div {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
   }
-
-  /* Optional animated background */
-  @keyframes backgroundShift {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
+  #redes-sociales a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s;
   }
-  body {
-    background-size: 200% 200%;
-    animation: backgroundShift 15s linear infinite;
+  #redes-sociales a:hover {
+    transform: scale(1.1);
+  }
+  #redes-sociales img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px;
   }
 </style>
 </head>
 <body>
-  <div class="interstitial">
-    <h1>Site Under Construction!</h1>
-    <p>Don't worry, it will be available very soon.</p>
+
+<header>
+  <div class="logo-container">
+    <!-- Site Logo -->
+    <img src="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="Logo" />
+    <h1>ETIORO</h1>
   </div>
+  <nav>
+    <a href="#inicio">Home</a>
+    <a href="#about">What is ETR?</a>
+  </nav>
+</header>
+
+<div class="content">
+  <!-- Main banner -->
+  <section class="hero" id="inicio">
+    <h2>The Fastest and Most Reliable Blockchain</h2>
+    <p>ETIORO - User-to-user e-money with Web3 technology of BitcoinCash.</p>
+    <a href="#https://app.cauldron.quest/swap/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" class="swap-btn">SWAP</a>
+  </section>
+
+  <!-- "What is XRPL?" section with token module and separated -->
+  <section id="about">
+    <div class="about-text">
+      <h2>What is ETR?</h2>
+      <p>ETIORO (ETR) is a completely decentralized token, designed to be simple in structure and functionality.</p>
+      <p>This means it is not controlled by any central entity and operates using blockchain technology, offering transparency and security to its users.</p>
+    </div>
+    <!-- Token logo -->
+    <div class="token-logo">
+      <img src="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="Token Logo" />
+    </div>
+    <!-- Separate module -->
+    <div class="custom-module">
+      <h3>Bitcoin Cash (BCH) technology and its influence in ETIORO:</h3>
+      <p>Bitcoin Cash (BCH) is a cryptocurrency that emerged as a fork of Bitcoin, intended to offer faster transactions and lower fees. It uses a similar technology to Bitcoin, based on a blockchain that supports fast and secure transactions. If ETIORO (ETR) is built or runs on the Bitcoin Cash platform, it can benefit from these features, such as shorter confirmation times and lower transaction costs, thanks to the BCH infrastructure.</p>
+    </div>
+    <!-- Additional logos -->
+    <div class="logos-container">
+      <div class="logo-item" data-name="uniswap">
+        <img src="https://bitcoincash.org/img/wallets/cashonize.webp" alt="Uniswap" />
+      </div>
+      <div class="logo-item" data-name="ethereum">
+        <!-- Only the image, no icon -->
+        <img src="https://bitcoincash.org/img/wallets/paytaca.svg" alt="Ethereum" />
+      </div>
+      <div class="logo-item" data-name="arbitrum">
+        <img src="https://bitcoincash.org/img/projects/cashtokens.webp" alt="Arbitrum" />
+      </div>
+      <div class="logo-item" data-name="trustwallet">
+        <img src="https://app.cauldron.quest/cauldron-header-logo.png" alt="https://app.cauldron.quest/swap/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Ethereum info section without icon, only logo image -->
+  <section id="ethereum-info" style="background-color: #f0f0f0; padding: 30px; margin: 30px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+    <h2 style="margin-bottom: 20px; color: #222;">ETIORO (ETR)</h2>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <!-- Ethereum logo (feel free to change the URL) -->
+      <img src="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="Ethereum Logo" style="width: 100px; height: 100px; margin-bottom: 15px;">
+      <!-- Contract address with copy option -->
+      <div style="max-width: 600px; width: 100%;">
+        <label for="eth-contract" style="font-weight: 600; display: block; margin-bottom: 8px;">Contract Address:</label>
+        <div style="display: flex;">
+          <input type="text" id="eth-contract" value="0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" readonly style="flex: 1; padding: 10px; font-family: monospace; border: 1px solid #ccc; border-radius: 4px;">
+          <button onclick="copiarDireccion()" style="margin-left: 10px; padding: 10px 20px; border: none; background-color: #007bff; color: #fff; border-radius: 4px; cursor: pointer;">
+            Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social media section -->
+  <section id="redes-sociales">
+    <h2>Follow us on Social Media</h2>
+    <div>
+      <!-- Twitter -->
+      <a href="https://twitter.com/yourusername" target="_blank" aria-label="Twitter">
+        <img src="https://pbs.twimg.com/profile_images/1683364031921356800/lC0xkPJZ_400x400.jpg" alt="Twitter" />
+        <span>Twitter</span>
+      </a>
+      <!-- Telegram -->
+      <a href="https://t.me/yourusername" target="_blank" aria-label="Telegram">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/1200px-Telegram_2019_Logo.svg.png" alt="Telegram" />
+        <span>Telegram</span>
+      </a>
+      <!-- Discord -->
+      <a href="https://discord.gg/yourcode" target="_blank" aria-label="Discord">
+        <img src="https://www.notebookcheck.org/fileadmin/Notebooks/News/_nc3/discord.jpeg" alt="Discord" />
+        <span>Discord</span>
+      </a>
+    </div>
+  </section>
+  
+  <!-- "Our features" section with centered heading -->
+  <section id="columnas">
+    <h2 class="section-title">Our Features</h2>
+    <div class="columnas">
+      <div class="columna">
+        <i class="fas fa-credit-card"></i>
+        <h3>Pay</h3>
+        <p>Enables fast and reliable payments on the BitcoinCash blockchain, allowing secure and efficient transactions worldwide.</p>
+      </div>
+      <div class="columna">
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Exchangeable</h3>
+        <p>Facilitates the exchange of digital assets in a scalable and straightforward manner, adapting to user and developer needs.</p>
+      </div>
+      <div class="columna">
+        <i class="fas fa-layer-group"></i>
+        <h3>Scalable & Simple</h3>
+        <p>ETIORO is a token on Bitcoin Cash that combines scalability and ease of use for fast, secure transactions..</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 Your ETIORO Project. All rights reserved.</p>
+  <p>
+    <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+  </p>
+</footer>
+
+<script>
+  // Pause and resume animation on logos
+  const logos = document.querySelectorAll('.logo-item');
+  logos.forEach(logo => {
+    let isPaused = false;
+    logo.addEventListener('click', () => {
+      const img = logo.querySelector('img');
+      if (!isPaused) {
+        img.style.animationPlayState = 'paused';
+        isPaused = true;
+      } else {
+        img.style.animationPlayState = 'running';
+        isPaused = false;
+      }
+    });
+  });
+
+  // Function to copy Ethereum contract address
+  function copiarDireccion() {
+    const copyText = document.getElementById('eth-contract');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand('copy');
+    alert('Copied: ' + copyText.value);
+  }
+</script>
+
 </body>
 </html>
