@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ETR - BCH Transfer White</title>
-<!-- Nunito Font -->
+<title>The fully decentralized Pioneer Token.</title>
+<!-- Fuente Nunito -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
-<!-- Font Awesome for social icons -->
+<!-- Font Awesome para iconos sociales -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<!-- Favicon -->
+<link rel="icon" href="https://meta.riften.net/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" type="image/png" />
 <style>
   body {
     margin: 0;
@@ -16,7 +18,7 @@
     background-color: #ffffff;
   }
 
-  /* Background canvas across the entire page */
+  /* Canvas de fondo en toda la página */
   #background-canvas {
     position: fixed;
     top: 0;
@@ -26,7 +28,7 @@
     z-index: 0;
   }
 
-  /* Foreground content */
+  /* Contenido en primer plano */
   .content {
     position: relative;
     z-index: 1;
@@ -61,7 +63,7 @@
     color: #00bcd4;
   }
 
-  /* Main section with transparent background to show animation */
+  /* Sección principal con fondo transparente para mostrar animación */
   .hero {
     display: flex;
     flex-direction: column;
@@ -111,7 +113,7 @@
     background-color: #0097a7;
   }
 
-  /* Informative sections */
+  /* Secciones informativas */
   .section {
     padding: 80px 20px;
     max-width: 1200px;
@@ -152,7 +154,7 @@
     color: #222;
   }
 
-  /* Footer */
+  /* Pie de página */
   footer {
     background-color: #f8f8f8;
     padding: 30px 20px;
@@ -161,7 +163,7 @@
     color: #555;
   }
 
-  /* Social media icons in footer */
+  /* Redes sociales en el footer */
   .social-icons {
     margin-bottom: 15px;
   }
@@ -177,35 +179,7 @@
     color: #00bcd4;
   }
 
-  /* Wallets section */
-  .wallets {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 40px;
-    flex-wrap: wrap;
-  }
-
-  .wallet {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .wallet img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
-    transition: transform 0.3s;
-  }
-
-  .wallet:hover img {
-    transform: scale(1.1);
-  }
-
+  /* Responsividad */
   @media(max-width: 768px) {
     nav a {
       margin-left: 15px;
@@ -221,32 +195,31 @@
       flex-direction: column;
       align-items: center;
     }
-    .wallets {
-      flex-direction: column;
-    }
   }
 </style>
 </head>
 <body>
 
-<!-- Background canvas across the entire page -->
+<!-- Canvas de fondo en toda la página -->
 <canvas id="background-canvas"></canvas>
 
-<header>
+<div class="content">
+  <header>
   <a href="https://blogger.googleusercontent.com/img/a/AVvXsEhymTgBrSOnK6nfDbl_vIV-8dhvDh9uTED5HAUyJNlxnwHh9NP6Wdb-8dGIji4fBi9XyP2fh5USNp_1EfQFcC-RbY-2R6bGfUmXcn6n6giOUEAT0OjfpJLcmwzTMRItRFaHPLSN1H3Li4g6AvXwsRPRKW__n83GylO82nelmNMYpcIyHt8GLdEO-IinJdGv" class="logo-link" style="display: flex; align-items: center; text-decoration: none;">
     <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhymTgBrSOnK6nfDbl_vIV-8dhvDh9uTED5HAUyJNlxnwHh9NP6Wdb-8dGIji4fBi9XyP2fh5USNp_1EfQFcC-RbY-2R6bGfUmXcn6n6giOUEAT0OjfpJLcmwzTMRItRFaHPLSN1H3Li4g6AvXwsRPRKW__n83GylO82nelmNMYpcIyHt8GLdEO-IinJdGv" alt="ETIORO Logo" style="height: 40px; margin-right: 10px;">
     <div class="logo-title" style="color: black; font-size: 24px; font-weight: bold;">ETIORO</div>
   </a>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Swap</a>
-    <a href="#">Explorer</a>
-    <a href="#"></a>
-  </nav>
-</header>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Swap</a>
+      <a href="#">Explorer</a>
+      <a href="#">Wallets</a>
+    </nav>
+  </header>
 
 <section class="hero">
-  <!-- Canvas for animated background -->
+  <!-- Canvas para fondo animado -->
+  <!-- Eliminé el canvas duplicado aquí -->
   <div class="hero-content">
     <h1>The fully decentralized Pioneer Token.</h1>
     <p>Send and receive digital money efficiently and securely using blockchain BCH technology.</p>
@@ -275,30 +248,33 @@
   </div>
 </section>
 
-<!-- Ethereum token info section -->
+<!-- Sección de info del token Ethereum -->
 <section class="token-info" style="padding: 80px 20px; max-width: 800px; margin: 0 auto; text-align: center;">
-  <h2 style="font-size: 36px; margin-bottom: 30px; color: #222;">ETIORO (ETR)</h2>
-  <img src="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="Ethereum" style="width: 80px; height: 80px; margin-bottom: 20px;">
-  <h3 style="font-size: 24px; margin-bottom: 10px;"></h3>
+  <h2 style="font-size: 36px; margin-bottom: 30px; color: #222;">Token ETIORO (ETR)</h2>
+  <img src="https://meta.riften.net/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="Ethereum" style="width: 80px; height: 80px; margin-bottom: 20px;">
+  <h3 style="font-size: 24px; margin-bottom: 10px;">ETIORO (ETR)</h3>
   <div style="display: flex; flex-direction: column; align-items: center;">
     <input id="contractAddress" type="text" value="0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" readonly style="width: 100%; max-width: 600px; padding: 10px; font-family: 'Nunito', sans-serif; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;"/>
     <button id="copyBtn" style="padding: 10px 20px; font-family: 'Nunito', sans-serif; font-size: 14px; border: none; border-radius: 5px; background-color: #00bcd4; color: #fff; cursor: pointer;">Copy Address</button>
   </div>
 </section>
 
-<!-- Wallets section: MetaMask and Trust Wallet -->
-<div class="wallets">
-  <a class="wallet" href="https://www.paytaca.com/" target="_blank" aria-label="Paytaca Wallet">
-    <img src="https://play-lh.googleusercontent.com/GsK_zE3T4blEXSqfnxUP6bK26OcJlGejg9qmhp8bAywhoOL1alLUfDy8LC23VSRfNg" alt="Paytaca Wallet" />
-    <span>Paytaca Wallet</span>
+<!-- Sección de imágenes con enlaces -->
+<section class="images-links" style="padding: 40px 20px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+  <!-- Imagen Paytaca -->
+  <a href="https://paytaca.com" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
+    <img src="https://play-lh.googleusercontent.com/GsK_zE3T4blEXSqfnxUP6bK26OcJlGejg9qmhp8bAywhoOL1alLUfDy8LC23VSRfNg=w240-h480-rw" alt="Paytaca" style="width: 150px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
+    <p style="margin-top: 10px; font-weight: bold;">Paytaca Wallet</p>
   </a>
-  <a class="wallet" href="https://app.cauldron.quest/swap/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" target="_blank" aria-label="Cauldron DEX">
-    <img src="https://www.cauldron.quest/logo.png" alt="Cauldron DEX" />
-    <span>Cauldron DEX</span>
+  
+  <!-- Imagen Trust Wallet -->
+  <a href="https://app.cauldron.quest/swap/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
+    <img src="https://www.cauldron.quest/logo.png" alt="Trust Wallet" style="width: 150px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
+    <p style="margin-top: 10px; font-weight: bold;">Cauldron Swap</p>
   </a>
-</div>
+</section>
 
-<!-- Footer with social media icons -->
+<!-- Pie de página con iconos sociales -->
 <footer>
   <div class="social-icons">
     <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -311,7 +287,7 @@
 </div>
 
 <script>
-  // Animated background: lines and symbols with Nunito
+  // Fondo animado: líneas y símbolos con Nunito
   const canvas = document.getElementById('background-canvas');
   const ctx = canvas.getContext('2d');
 
@@ -370,7 +346,7 @@
       p.update();
       p.draw();
     }
-    // Smooth connection between particles
+    // Conexión suave entre partículas
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -392,7 +368,7 @@
   initParticles();
   animate();
 
-  // Modern function to copy using Clipboard API
+  // Función moderna para copiar usando Clipboard API
   document.getElementById('copyBtn').addEventListener('click', () => {
     const addressInput = document.getElementById('contractAddress');
     if (navigator.clipboard) {
@@ -410,7 +386,7 @@
     element.select();
     element.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    alert('Contract address copied');
+    alert('Dirección del contrato copiada');
   }
 </script>
 
