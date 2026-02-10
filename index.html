@@ -1,394 +1,558 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The fully decentralized Pioneer Token.</title>
-<!-- Fuente Nunito -->
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
-<!-- Font Awesome para iconos sociales -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<!-- Favicon -->
-<link rel="icon" href="https://meta.riften.net/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" type="image/png" />
-<style>
-  body {
-    margin: 0;
-    font-family: 'Nunito', sans-serif;
-    color: #222;
-    background-color: #ffffff;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to ETIORO</title>
+  <!-- Favicon with your PNG logo -->
+  <link rel="icon" type="image/png" href="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" />
+  <!-- Include Google Fonts and Chart.js -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-  /* Canvas de fondo en toda la página */
-  #background-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-
-  /* Contenido en primer plano */
-  .content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background-color: rgba(248,248,248,0.9);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-
-  .logo {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: #222;
-  }
-
-  nav a {
-    color: #222;
-    text-decoration: none;
-    margin-left: 30px;
-    font-weight: 600;
-  }
-
-  nav a:hover {
-    color: #00bcd4;
-  }
-
-  /* Sección principal con fondo transparente para mostrar animación */
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 100px 20px;
-    text-align: center;
-    position: relative;
-  }
-
-  .hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: 700;
-    color: #222;
-  }
-
-  .hero p {
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: #555;
-  }
-
-  .buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .btn {
-    padding: 15px 30px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s;
-  }
-
-  .btn-primary {
-    background-color: #00bcd4;
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    background-color: #0097a7;
-  }
-
-  /* Secciones informativas */
-  .section {
-    padding: 80px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 36px;
-    color: #222;
-    font-weight: 700;
-  }
-
-  .cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-  }
-
-  .card {
-    background-color: rgba(0,0,0,0.02);
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s;
-  }
-
-  .card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-
-  .card h3 {
-    margin-bottom: 15px;
-    font-size: 24px;
-    color: #222;
-  }
-
-  /* Pie de página */
-  footer {
-    background-color: #f8f8f8;
-    padding: 30px 20px;
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-  }
-
-  /* Redes sociales en el footer */
-  .social-icons {
-    margin-bottom: 15px;
-  }
-
-  .social-icons a {
-    margin: 0 10px;
-    color: #555;
-    font-size: 24px;
-    transition: color 0.3s;
-  }
-
-  .social-icons a:hover {
-    color: #00bcd4;
-  }
-
-  /* Responsividad */
-  @media(max-width: 768px) {
-    nav a {
-      margin-left: 15px;
-      font-size: 14px;
+    /* General styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
     }
-    .hero h1 {
-      font-size: 32px;
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #111;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
-    .section h2 {
-      font-size: 28px;
-    }
-    .cards {
-      flex-direction: column;
+
+    /* Logo and title */
+    .logo-title {
+      display: flex;
       align-items: center;
     }
-  }
-</style>
+    #logo {
+      height: 50px;
+      width: 50px;
+      margin-right: 15px;
+    }
+    h1 {
+      font-size: 2em;
+      margin: 0;
+      letter-spacing: 2px;
+      color: #00ffff;
+    }
+
+    /* Mobile menu button */
+    .menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .menu-btn div {
+      width: 100%;
+      height: 3px;
+      background-color: #00ffff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile navigation */
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    nav a:hover {
+      background-color: #00ffff;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .menu-btn {
+        display: flex;
+      }
+      nav {
+        position: absolute;
+        top: 100%;
+        right: 20px;
+        background-color: #222;
+        flex-direction: column;
+        width: 150px;
+        padding: 10px;
+        display: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+      nav.show {
+        display: flex;
+      }
+    }
+
+    /* Contract section */
+    .contract-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #111;
+      padding: 15px 20px;
+      border-top: 2px solid #00ffff;
+      border-bottom: 2px solid #00ffff;
+    }
+    .contract-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .usdt-logo {
+      width: 60px;
+      height: auto;
+    }
+    .contract-text {
+      font-size: 1em;
+      max-width: 300px;
+      word-break: break-word;
+    }
+    .copy-btn {
+      background-color: #00ffff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .copy-btn:hover {
+      background-color: #ff0055;
+    }
+
+    /* Main container */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px;
+      justify-content: center;
+    }
+
+    /* Columns */
+    .column {
+      flex: 1 1 280px;
+      margin: 10px;
+      background-color: #111;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+    .column:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px #00ffff;
+    }
+
+    /* Token image */
+    .token-img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto 15px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00ffff;
+    }
+
+    /* Social icons */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    .social-icons a {
+      margin: 0 8px;
+      font-size: 1.8em;
+      color: #00ffff;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .social-icons a:hover {
+      color: #ff0055;
+      transform: scale(1.2);
+    }
+
+    /* Tokenomics list */
+    .tokenomics-list {
+      list-style: none;
+      padding: 0;
+    }
+    .tokenomics-item {
+      background-color: #222;
+      margin: 8px 0;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-size: 0.95em;
+    }
+    .tokenomics-item:hover {
+      background-color: #333;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #111;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    /* Larger rotating banner */
+    .banner-rotatorio {
+      position: relative;
+      width: 100%;
+      height: 250px; /* bigger height for larger banner */
+      overflow: hidden;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+    }
+    /* Banner slider */
+    .banner-slider {
+      display: flex;
+      width: calc(100% * 3);
+      height: 100%;
+      transition: transform 1s ease-in-out;
+    }
+    /* Each slide */
+    .banner-slide {
+      width: 100%;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Style for the update button with futuristic design and animation */
+    #updateBtn {
+      background: linear-gradient(135deg, #ff00f7, #00ffff);
+      border: none;
+      padding: 12px 25px;
+      margin-top: 15px;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      box-shadow: 0 0 15px #ff00f7, 0 0 30px #00ffff;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #updateBtn:hover {
+      background: linear-gradient(135deg, #00ffff, #ff00f7);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff00f7, 0 0 40px #00ffff;
+    }
+
+    /* Pulsing animation for the button on click */
+    @keyframes pulseButton {
+      0% { box-shadow: 0 0 15px #ff00f7, 0 0 30px #00ffff; }
+      50% { box-shadow: 0 0 25px #ff00f7, 0 0 50px #00ffff; }
+      100% { box-shadow: 0 0 15px #ff00f7, 0 0 30px #00ffff; }
+    }
+
+    /* Style for "Follow Us" title */
+    .center-title {
+      text-align: center;
+    }
+
+    /* Style for centered text */
+    .center-text {
+      text-align: center;
+    }
+  </style>
+  <!-- Include Chart.js from CDN before closing head -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<!-- Canvas de fondo en toda la página -->
-<canvas id="background-canvas"></canvas>
-
-<div class="content">
-  <header>
-  <a href="https://blogger.googleusercontent.com/img/a/AVvXsEhymTgBrSOnK6nfDbl_vIV-8dhvDh9uTED5HAUyJNlxnwHh9NP6Wdb-8dGIji4fBi9XyP2fh5USNp_1EfQFcC-RbY-2R6bGfUmXcn6n6giOUEAT0OjfpJLcmwzTMRItRFaHPLSN1H3Li4g6AvXwsRPRKW__n83GylO82nelmNMYpcIyHt8GLdEO-IinJdGv" class="logo-link" style="display: flex; align-items: center; text-decoration: none;">
-    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhymTgBrSOnK6nfDbl_vIV-8dhvDh9uTED5HAUyJNlxnwHh9NP6Wdb-8dGIji4fBi9XyP2fh5USNp_1EfQFcC-RbY-2R6bGfUmXcn6n6giOUEAT0OjfpJLcmwzTMRItRFaHPLSN1H3Li4g6AvXwsRPRKW__n83GylO82nelmNMYpcIyHt8GLdEO-IinJdGv" alt="ETIORO Logo" style="height: 40px; margin-right: 10px;">
-    <div class="logo-title" style="color: black; font-size: 24px; font-weight: bold;">ETIORO</div>
-  </a>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Swap</a>
-      <a href="#">Explorer</a>
-      <a href="#">Wallets</a>
-    </nav>
-  </header>
-
-<section class="hero">
-  <!-- Canvas para fondo animado -->
-  <!-- Eliminé el canvas duplicado aquí -->
-  <div class="hero-content">
-    <h1>The fully decentralized Pioneer Token.</h1>
-    <p>Send and receive digital money efficiently and securely using blockchain BCH technology.</p>
-    <div class="buttons">
-      <button class="btn btn-primary">Buy</button>
-      <button class="btn">Hold</button>
-    </div>
+<header>
+  <div class="logo-title">
+    <img src="https://i.imgur.com/y5fvnAp.png" alt="Logo" id="logo" />
+    <h1>ETIORO</h1>
   </div>
-</section>
+  <button class="menu-btn" aria-label="Menu" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </button>
+  <nav id="menu">
+    <a href="https://cryptoetioro.github.io/">Home</a>
+    <a href="https://tokenexplorer.cash/?tokenId=0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b">Explorer</a>
+    <a href="https://app.cauldron.quest/swap/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b">Swap</a>
+  </nav>
+</header>
 
-<section class="section">
-  <h2>What is ETR?</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Fast and Secure</h3>
-      <p>Bitcoin Cash offers a blockchain that enables quick and secure transfers for millions of users.</p>
-    </div>
-    <div class="card">
-      <h3>Scalable</h3>
-      <p>ETR's technology supports massive growth without sacrificing security or speed.</p>
-    </div>
-    <div class="card">
-      <h3>Open and Transparent</h3>
-      <p>A platform that promotes innovation and collaboration within the blockchain ecosystem.</p>
-    </div>
+<!-- USDT contract info section -->
+<div class="contract-section">
+  <div class="contract-info">
+    <img src="https://meta.cauldron.quest/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="USDT Logo" class="usdt-logo"/>
+    <div class="contract-text" id="contractAddress">0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b</div>
+    <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
   </div>
-</section>
-
-<!-- Sección de info del token Ethereum -->
-<section class="token-info" style="padding: 80px 20px; max-width: 800px; margin: 0 auto; text-align: center;">
-  <h2 style="font-size: 36px; margin-bottom: 30px; color: #222;">Token ETIORO (ETR)</h2>
-  <img src="https://meta.riften.net/icon/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" alt="Ethereum" style="width: 80px; height: 80px; margin-bottom: 20px;">
-  <h3 style="font-size: 24px; margin-bottom: 10px;">ETIORO (ETR)</h3>
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <input id="contractAddress" type="text" value="0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" readonly style="width: 100%; max-width: 600px; padding: 10px; font-family: 'Nunito', sans-serif; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;"/>
-    <button id="copyBtn" style="padding: 10px 20px; font-family: 'Nunito', sans-serif; font-size: 14px; border: none; border-radius: 5px; background-color: #00bcd4; color: #fff; cursor: pointer;">Copy Address</button>
-  </div>
-</section>
-
-<!-- Sección de imágenes con enlaces -->
-<section class="images-links" style="padding: 40px 20px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
-  <!-- Imagen Paytaca -->
-  <a href="https://paytaca.com" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
-    <img src="https://play-lh.googleusercontent.com/GsK_zE3T4blEXSqfnxUP6bK26OcJlGejg9qmhp8bAywhoOL1alLUfDy8LC23VSRfNg=w240-h480-rw" alt="Paytaca" style="width: 150px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
-    <p style="margin-top: 10px; font-weight: bold;">Paytaca Wallet</p>
-  </a>
-  
-  <!-- Imagen Trust Wallet -->
-  <a href="https://app.cauldron.quest/swap/0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
-    <img src="https://www.cauldron.quest/logo.png" alt="Trust Wallet" style="width: 150px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
-    <p style="margin-top: 10px; font-weight: bold;">Cauldron Swap</p>
-  </a>
-</section>
-
-<!-- Pie de página con iconos sociales -->
-<footer>
-  <div class="social-icons">
-    <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="#" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-    <a href="#" target="_blank" aria-label="Reddit"><i class="fab fa-reddit-alien"></i></a>
-    <a href="#" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
-  </div>
-  &copy; 2026 etioro. All rights reserved.
-</footer>
 </div>
 
+<!-- Larger rotating banner -->
+<div class="banner-rotatorio">
+  <div class="banner-slider" id="bannerSlider">
+    <div class="banner-slide" style="background-image: url('https://app.cauldron.quest/cauldron-header-logo.png');"></div>
+    <div class="banner-slide" style="background-image: url('https://via.placeholder.com/1200x250/ff0055/ffffff?text=Banner+2');"></div>
+    <div class="banner-slide" style="background-image: url('https://www.paytaca.com/_nuxt/paytaca_dark.eaa52369.png');"></div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="container">
+
+  <!-- Token info -->
+  <div class="column">
+    <h2>What is ETR?</h2>
+    <div class="info">
+      <p>ETIORO is a token on Bitcoin Cash that combines scalability and ease of use for fast, secure transactions.</p>
+    </div>
+  </div>
+
+  <!-- Tokenomics -->
+  <div class="column">
+    <h2>Tokenomics</h2>
+    <ul class="tokenomics-list">
+      <li class="tokenomics-item"><strong>Total Supply:</strong> 5,000,000 ETR</li>
+      <li class="tokenomics-item"><strong>Platform:</strong> Bitcoin Cash</li>
+      <li class="tokenomics-item"><strong>Distribution:</strong> 50% Liquidity, 20% Development, 15% Marketing, 15% Reserve</li>
+      <li class="tokenomics-item"><strong>Use:</strong> Gaming, DeFi, Payments, Trading</li>
+    </ul>
+  </div>
+
+  <!-- Price and chart section -->
+  <div class="column" style="flex:1 1 100%; max-width:100%;">
+    <h2 style="text-align:center;">ETIORO Token Price</h2>
+    <!-- Centered price and update button -->
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
+      <div id="precio" style="margin-bottom: 10px;">Loading price...</div>
+      <button id="updateBtn" onclick="actualizarPrecio()">Update Price</button>
+    </div>
+    <div id="loading" style="text-align:center;">Current price:</div>
+    <ul id="historyList"></ul>
+    <div id="chartContainer">
+      <h2 style="text-align:center;">Price Chart</h2>
+      <canvas id="priceChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Social media -->
+  <div class="column">
+    <h2 class="center-title">Follow Us</h2>
+    <div class="social-icons">
+      <a href="https://x.com/etioro" title="Twitter" target="_blank">🐦</a>
+      <a href="https://t.me/etioro0x" title="Telegram" target="_blank">💬</a>
+      <a href="https://discord.gg/S5GSkjFg" title="Discord" target="_blank">🗣️</a>
+    </div>
+    <div class="info" style="margin-top:10px;">
+      <p class="center-text">Join our community to stay updated with the latest news and events!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  © 2025 etioro. All rights reserved.
+</footer>
+
+<!-- Scripts -->
 <script>
-  // Fondo animado: líneas y símbolos con Nunito
-  const canvas = document.getElementById('background-canvas');
-  const ctx = canvas.getContext('2d');
-
-  let particles = [];
-
-  const resizeCanvas = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  };
-
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  class Particle {
-    constructor() {
-      this.reset();
-    }
-    reset() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.size = Math.random() * 20 + 10;
-      this.speedX = (Math.random() - 0.5) * 1.2;
-      this.speedY = (Math.random() - 0.5) * 1.2;
-      this.symbol = Math.random() > 0.5 ? '💸' : '';
-      this.alpha = Math.random() * 0.7 + 0.3;
-      this.phase = Math.random() * Math.PI * 2;
-    }
-    update() {
-      this.x += this.speedX + Math.sin(this.phase) * 0.5;
-      this.y += this.speedY + Math.cos(this.phase) * 0.5;
-      if (this.x < -50 || this.x > canvas.width + 50 || this.y < -50 || this.y > canvas.height + 50) {
-        this.reset();
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-      }
-      this.phase += 0.01;
-    }
-    draw() {
-      ctx.globalAlpha = this.alpha;
-      ctx.font = `${this.size}px 'Nunito', Arial`;
-      ctx.fillStyle = '#222';
-      ctx.fillText(this.symbol, this.x, this.y);
-    }
+  // Toggle menu
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('show');
   }
 
-  const initParticles = () => {
-    particles = [];
-    for (let i = 0; i < 100; i++) {
-      particles.push(new Particle());
-    }
-  };
+  // Copy contract address
+  function copyToClipboard() {
+    const contract = document.getElementById('contractAddress').innerText;
+    navigator.clipboard.writeText(contract).then(() => {
+      alert('Contract copied to clipboard!');
+    }, () => {
+      alert('Error copying. Please copy manually.');
+    });
+  }
 
-  const animate = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let p of particles) {
-      p.update();
-      p.draw();
-    }
-    // Conexión suave entre partículas
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 120) {
-          ctx.strokeStyle = 'rgba(0, 188, 212, 0.05)';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(animate);
-  };
+  // Banner slider
+  const slider = document.getElementById('bannerSlider');
+  const totalSlides = document.querySelectorAll('.banner-slide').length;
+  let currentSlide = 0;
 
-  initParticles();
-  animate();
+  function showSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    currentSlide = index;
+    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+  }
 
-  // Función moderna para copiar usando Clipboard API
-  document.getElementById('copyBtn').addEventListener('click', () => {
-    const addressInput = document.getElementById('contractAddress');
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(addressInput.value).then(() => {
-        alert('Contract address copied');
-      }).catch(() => {
-        fallbackCopy(addressInput);
+  function changeSlide(direction) {
+    showSlide(currentSlide + direction);
+  }
+
+  setInterval(() => {
+    changeSlide(1);
+  }, 5000);
+
+  // Fetch and display price
+  const tokenId = '0994128917ba1a68fa022a16d129e29e240aae0687098469facb6bdbf409cc2b';
+  let chart;
+
+  function obtenerPrecio() {
+    document.getElementById('loading').style.display = 'block';
+    fetch(`https://indexer.cauldron.quest/cauldron/price/${tokenId}/current/`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('loading').style.display = 'none';
+        const precioElem = document.getElementById('precio');
+        precioElem.innerText = `Current price: ${data.price} Bitcoin Cash (BCH)`;
+        // Animate
+        precioElem.classList.remove('animate');
+        void precioElem.offsetWidth;
+        precioElem.classList.add('animate');
+      })
+      .catch(() => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('precio').innerText = 'Error loading price.';
       });
-    } else {
-      fallbackCopy(addressInput);
-    }
-  });
-
-  function fallbackCopy(element) {
-    element.select();
-    element.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    alert('Dirección del contrato copiada');
   }
-</script>
 
+  function obtenerHistorial() {
+    const now = Math.floor(Date.now() / 1000);
+    const startTime = now - (7 * 24 * 60 * 60);
+    fetch(`https://indexer.cauldron.quest/cauldron/price/${tokenId}/history/?start=${startTime}&end=${now}`)
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('historyList');
+        list.innerHTML = '';
+        const labels = [];
+        const prices = [];
+        if (data.history && data.history.length > 0) {
+          data.history.forEach(entry => {
+            const dateStr = new Date(entry.time * 1000).toLocaleString();
+            const li = document.createElement('li');
+            li.innerText = `${dateStr}: ${entry.avg.toFixed(2)} BCH`;
+            list.appendChild(li);
+            labels.push(dateStr);
+            prices.push(entry.avg);
+          });
+          crearGrafico(labels, prices);
+        } else {
+          list.innerHTML = '<li>No data in history.</li>';
+          if (chart) chart.destroy();
+        }
+      })
+      .catch(() => {
+        document.getElementById('historyList').innerHTML = '<li>Error loading history.</li>';
+      });
+  }
+
+  function crearGrafico(labels, data) {
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    if (chart) {
+      chart.data.labels = labels;
+      chart.data.datasets[0].data = data;
+      chart.update();
+    } else {
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Price in BCH',
+            data: data,
+            borderColor: '#00ffff',
+            backgroundColor: 'rgba(0, 255, 255, 0.2)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3,
+            pointBackgroundColor: '#00ffff',
+            pointBorderColor: '#00ffff',
+          }]
+        },
+        options: {
+          responsive: true,
+          animation: { duration: 1000 },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#00ffff',
+                font: { size: 14, weight: 'bold' }
+              }
+            }
+          },
+          scales: {
+            x: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Date',
+                color: '#00ffff',
+                font: { size: 14, weight: 'bold' }
+              },
+              ticks: { color: '#00ffff' }
+            },
+            y: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Price (BCH)',
+                color: '#00ffff',
+                font: { size: 14, weight: 'bold' }
+              },
+              beginAtZero: false,
+              ticks: { color: '#00ffff' }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // Animate update button and fetch price
+  function actualizarPrecio() {
+    const btn = document.getElementById('updateBtn');
+    btn.style.animation = 'pulseButton 0.6s';
+    btn.addEventListener('animationend', () => {
+      btn.style.animation = '';
+    });
+    obtenerPrecio();
+  }
+
+  // Load data on page load
+  window.onload = () => {
+    obtenerPrecio();
+    obtenerHistorial();
+  };
+</script>
 </body>
 </html>
