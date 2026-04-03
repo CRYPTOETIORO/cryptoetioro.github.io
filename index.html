@@ -29,7 +29,8 @@
         .input-row input { background: transparent; border: none; color: #fff; font-size: 28px; font-weight: 700; width: 60%; outline: none; }
         .token-selector { background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 16px; display: flex; align-items: center; gap: 8px; font-weight: 700; }
         .divider { height: 48px; width: 48px; background: #1c1c1e; border: 4px solid var(--bg); border-radius: 14px; margin: -24px auto; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
-        .main-btn { width: 100%; margin-top: 12px; padding: 20px; border-radius: 20px; border: none; background: var(--accent-gradient); color: #000; font-size: 18px; font-weight: 800; cursor: pointer; }
+        .main-btn { width: 100%; margin-top: 12px; padding: 20px; border-radius: 20px; border: none; background: var(--accent-gradient); color: #000; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .main-btn:disabled { background: #2c2c2e; color: #555; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -72,29 +73,33 @@
     <script>
         let userAddress = null;
         let provider, signer;
-        // Contrato Router de PancakeSwap (No necesita API Key)
+        
+        // Contratos PancakeSwap V2 (BSC Mainnet)
         const PAN_ROUTER = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
         const WBNB = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
         const USDT = "0x55d398326f99059fF775485246999027B3197955";
 
         async function connectWallet() {
             if (window.ethereum) {
-                provider = new ethers.BrowserProvider(window.ethereum);
-                const accounts = await provider.send("eth_requestAccounts", []);
-                userAddress = accounts[0];
-                document.getElementById('wBtn').innerText = userAddress.substring(0,6) + "...";
-                updateButton();
+                try {
+                    provider = new ethers.BrowserProvider(window.ethereum);
+                    const accounts = await provider.send("eth_requestAccounts", []);
+                    userAddress = accounts[0];
+                    document.getElementById('wBtn').innerText = userAddress.substring(0,6) + "...";
+                    updateButton();
+                    updatePrice();
+                } catch (e) { console.error("Error al conectar wallet", e); }
             }
         }
 
         async function updatePrice() {
             const val = document.getElementById('amtIn').value;
             const out = document.getElementById('amtOut');
-            if (!val || val <= 0) return;
+            if (!val || val <= 0) { out.value = ""; return; }
 
             try {
-                // Usamos un proveedor público de BSC para no depender de API Keys
-                const rpcProvider = new ethers.JsonRpcProvider("https://bsc-dataseed.binance.org/");
+                // Proveedor público de alta velocidad
+                const rpcProvider = new ethers.JsonRpcProvider("https://binance.llamarpc.com");
                 const router = new ethers.Contract(PAN_ROUTER, 
                     ["function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)"], 
                     rpcProvider);
@@ -102,20 +107,68 @@
                 const amountIn = ethers.parseEther(val.toString());
                 const amounts = await router.getAmountsOut(amountIn, [WBNB, USDT]);
                 
-                // USDT tiene 18 decimales en BSC
+                // En BSC, tanto BNB como USDT usan 18 decimales en esta ruta
                 out.value = parseFloat(ethers.formatUnits(amounts[1], 18)).toFixed(2);
                 updateButton();
-            } catch (e) { console.error(e); out.placeholder = "Error de red"; }
+            } catch (e) { 
+                console.error(e); 
+                out.placeholder = "Error de precio"; 
+            }
         }
 
         function updateButton() {
             const btn = document.getElementById('sBtn');
-            btn.innerText = userAddress ? "Intercambiar Ahora" : "Conectar Wallet";
+            const val = document.getElementById('amtIn').value;
+            if (!userAddress) {
+                btn.innerText = "Conectar Wallet";
+            } else if (!val || val <= 0) {
+                btn.innerText = "Ingresa un monto";
+            } else {
+                btn.innerText = "Intercambiar Ahora";
+            }
         }
 
         async function handleAction() {
             if (!userAddress) return connectWallet();
-            alert("Intercambio iniciado (Simulación en Mainnet)");
+            
+            const val = document.getElementById('amtIn').value;
+            const btn = document.getElementById('sBtn');
+            
+            try {
+                const browserProvider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await browserProvider.getSigner();
+                
+                const routerContract = new ethers.Contract(PAN_ROUTER, [
+                    "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)"
+                ], signer);
+
+                const amountIn = ethers.parseEther(val.toString());
+                const path = [WBNB, USDT];
+                const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 min
+
+                btn.innerText = "Firma en MetaMask...";
+                btn.disabled = true;
+
+                // Transacción real
+                const tx = await routerContract.swapExactETHForTokens(
+                    0, // Slippage al 100% para evitar fallos en pruebas
+                    path,
+                    userAddress,
+                    deadline,
+                    { value: amountIn }
+                );
+
+                btn.innerText = "Procesando...";
+                await tx.wait();
+                btn.innerText = "¡Hecho! ✅";
+                setTimeout(() => { btn.disabled = false; updateButton(); }, 3000);
+
+            } catch (e) {
+                console.error(e);
+                btn.innerText = "Error o Cancelado";
+                btn.disabled = false;
+                setTimeout(updateButton, 2000);
+            }
         }
     </script>
 </body>
