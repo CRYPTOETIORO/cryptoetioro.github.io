@@ -94,7 +94,6 @@
             const out = document.getElementById('amtOut');
             if (!val || val <= 0) { out.value = ""; return; }
 
-            // Intentar con múltiples nodos por si uno falla
             const nodes = ["https://bsc-dataseed.binance.org/", "https://rpc.ankr.com/bsc", "https://binance.llamarpc.com"];
             
             for (let node of nodes) {
@@ -109,9 +108,9 @@
                     
                     out.value = parseFloat(ethers.formatUnits(amounts[1], 18)).toFixed(2);
                     updateButton();
-                    return; // Si funciona, salimos del bucle
+                    return;
                 } catch (e) {
-                    console.warn(`Fallo en nodo ${node}, intentando el siguiente...`);
+                    console.warn(`Fallo en nodo ${node}`);
                 }
             }
             out.placeholder = "Error de red";
@@ -139,6 +138,16 @@
                 const browserProvider = new ethers.BrowserProvider(window.ethereum);
                 const signer = await browserProvider.getSigner();
                 
+                // Verificación de saldo antes de enviar
+                const balance = await browserProvider.getBalance(userAddress);
+                const amountIn = ethers.parseEther(val.toString());
+
+                if (balance < amountIn) {
+                    btn.innerText = "Saldo Insuficiente";
+                    setTimeout(updateButton, 2000);
+                    return;
+                }
+
                 const routerContract = new ethers.Contract(PAN_ROUTER, [
                     "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)"
                 ], signer);
@@ -151,7 +160,10 @@
                     [WBNB, USDT],
                     userAddress,
                     Math.floor(Date.now() / 1000) + 60 * 20,
-                    { value: ethers.parseEther(val.toString()) }
+                    { 
+                        value: amountIn,
+                        gasLimit: 250000 
+                    }
                 );
 
                 btn.innerText = "Procesando...";
@@ -161,7 +173,7 @@
 
             } catch (e) {
                 console.error(e);
-                btn.innerText = "Error o Cancelado";
+                btn.innerText = (e.code === 'ACTION_REJECTED') ? "Rechazado" : "Error de Red/Gas";
                 btn.disabled = false;
                 setTimeout(updateButton, 2000);
             }
