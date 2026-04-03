@@ -72,9 +72,6 @@
 
     <script>
         let userAddress = null;
-        let provider, signer;
-        
-        // Contratos PancakeSwap V2 (BSC Mainnet)
         const PAN_ROUTER = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
         const WBNB = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
         const USDT = "0x55d398326f99059fF775485246999027B3197955";
@@ -82,7 +79,7 @@
         async function connectWallet() {
             if (window.ethereum) {
                 try {
-                    provider = new ethers.BrowserProvider(window.ethereum);
+                    const provider = new ethers.BrowserProvider(window.ethereum);
                     const accounts = await provider.send("eth_requestAccounts", []);
                     userAddress = accounts[0];
                     document.getElementById('wBtn').innerText = userAddress.substring(0,6) + "...";
@@ -97,23 +94,27 @@
             const out = document.getElementById('amtOut');
             if (!val || val <= 0) { out.value = ""; return; }
 
-            try {
-                // Proveedor público de alta velocidad
-                const rpcProvider = new ethers.JsonRpcProvider("https://binance.llamarpc.com");
-                const router = new ethers.Contract(PAN_ROUTER, 
-                    ["function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)"], 
-                    rpcProvider);
+            // Intentar con múltiples nodos por si uno falla
+            const nodes = ["https://bsc-dataseed.binance.org/", "https://rpc.ankr.com/bsc", "https://binance.llamarpc.com"];
+            
+            for (let node of nodes) {
+                try {
+                    const rpcProvider = new ethers.JsonRpcProvider(node);
+                    const router = new ethers.Contract(PAN_ROUTER, 
+                        ["function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)"], 
+                        rpcProvider);
 
-                const amountIn = ethers.parseEther(val.toString());
-                const amounts = await router.getAmountsOut(amountIn, [WBNB, USDT]);
-                
-                // En BSC, tanto BNB como USDT usan 18 decimales en esta ruta
-                out.value = parseFloat(ethers.formatUnits(amounts[1], 18)).toFixed(2);
-                updateButton();
-            } catch (e) { 
-                console.error(e); 
-                out.placeholder = "Error de precio"; 
+                    const amountIn = ethers.parseEther(val.toString());
+                    const amounts = await router.getAmountsOut(amountIn, [WBNB, USDT]);
+                    
+                    out.value = parseFloat(ethers.formatUnits(amounts[1], 18)).toFixed(2);
+                    updateButton();
+                    return; // Si funciona, salimos del bucle
+                } catch (e) {
+                    console.warn(`Fallo en nodo ${node}, intentando el siguiente...`);
+                }
             }
+            out.placeholder = "Error de red";
         }
 
         function updateButton() {
@@ -142,20 +143,15 @@
                     "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)"
                 ], signer);
 
-                const amountIn = ethers.parseEther(val.toString());
-                const path = [WBNB, USDT];
-                const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 min
-
                 btn.innerText = "Firma en MetaMask...";
                 btn.disabled = true;
 
-                // Transacción real
                 const tx = await routerContract.swapExactETHForTokens(
-                    0, // Slippage al 100% para evitar fallos en pruebas
-                    path,
+                    0, 
+                    [WBNB, USDT],
                     userAddress,
-                    deadline,
-                    { value: amountIn }
+                    Math.floor(Date.now() / 1000) + 60 * 20,
+                    { value: ethers.parseEther(val.toString()) }
                 );
 
                 btn.innerText = "Procesando...";
