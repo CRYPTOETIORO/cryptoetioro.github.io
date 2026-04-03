@@ -4,166 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TelarMoney | Premium DEX</title>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    
     <style>
         :root {
-            --primary: #F3BA2F;
-            --primary-hover: #ffcc4a;
-            --bg: #08080a;
-            --card-bg: rgba(23, 23, 26, 0.7);
-            --input-bg: rgba(0, 0, 0, 0.3);
-            --text-main: #ffffff;
-            --text-dim: #98a1c0;
-            --border: rgba(255, 255, 255, 0.08);
+            --primary: #F3BA2F; --primary-hover: #ffcc4a; --bg: #08080a;
+            --card-bg: rgba(23, 23, 26, 0.7); --input-bg: rgba(0, 0, 0, 0.3);
+            --text-main: #ffffff; --text-dim: #98a1c0; --border: rgba(255, 255, 255, 0.08);
             --accent-gradient: linear-gradient(135deg, #F3BA2F 0%, #f3732f 100%);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-
         body {
             background-color: var(--bg);
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(243, 186, 47, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 100% 100%, rgba(243, 115, 47, 0.05) 0%, transparent 40%);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            background-image: radial-gradient(circle at 0% 0%, rgba(243, 186, 47, 0.08) 0%, transparent 40%), radial-gradient(circle at 100% 100%, rgba(243, 115, 47, 0.05) 0%, transparent 40%);
+            color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;
         }
-
-        /* --- Header & Nav --- */
-        .nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-
+        .nav { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); z-index: 100; }
         .logo { font-weight: 800; font-size: 24px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .btn-connect {
-            background: rgba(243, 186, 47, 0.1);
-            border: 1px solid rgba(243, 186, 47, 0.3);
-            color: var(--primary);
-            padding: 10px 20px;
-            border-radius: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+        .btn-connect { background: rgba(243, 186, 47, 0.1); border: 1px solid rgba(243, 186, 47, 0.3); color: var(--primary); padding: 10px 20px; border-radius: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
         .btn-connect:hover { background: var(--primary); color: #000; transform: translateY(-2px); }
-
-        /* --- Swap Card --- */
-        .swap-container {
-            width: 100%;
-            max-width: 460px;
-            padding: 20px;
-            position: relative;
-        }
-
-        .swap-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 12px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .token-section {
-            background: var(--input-bg);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 8px;
-            border: 1px solid transparent;
-            transition: border 0.3s;
-        }
+        .swap-container { width: 100%; max-width: 460px; padding: 20px; position: relative; }
+        .swap-card { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 32px; padding: 12px; box-shadow: 0 40px 100px rgba(0,0,0,0.4); animation: fadeIn 0.8s ease-out; }
+        .token-section { background: var(--input-bg); border-radius: 24px; padding: 20px; margin-bottom: 8px; border: 1px solid transparent; transition: border 0.3s; }
         .token-section:focus-within { border-color: rgba(243, 186, 47, 0.4); }
-
         .label { color: var(--text-dim); font-size: 14px; font-weight: 600; margin-bottom: 12px; display: block; }
-
         .input-row { display: flex; justify-content: space-between; align-items: center; }
-
-        .input-row input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 28px;
-            font-weight: 700;
-            width: 60%;
-            outline: none;
-        }
-
-        .token-selector {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 12px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            cursor: default;
-        }
-
-        .token-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--primary); }
-
-        /* --- Divider --- */
-        .divider {
-            height: 48px;
-            width: 48px;
-            background: #1c1c1e;
-            border: 4px solid var(--bg);
-            border-radius: 14px;
-            margin: -24px auto;
-            position: relative;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
+        .input-row input { background: transparent; border: none; color: #fff; font-size: 28px; font-weight: 700; width: 60%; outline: none; }
+        .token-selector { background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 16px; display: flex; align-items: center; gap: 8px; font-weight: 700; }
+        .token-icon { width: 24px; height: 24px; border-radius: 50%; }
+        .divider { height: 48px; width: 48px; background: #1c1c1e; border: 4px solid var(--bg); border-radius: 14px; margin: -24px auto; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.3s; }
         .divider:hover { transform: rotate(180deg) scale(1.1); color: var(--primary); }
-
-        /* --- Button --- */
-        .main-btn {
-            width: 100%;
-            margin-top: 12px;
-            padding: 20px;
-            border-radius: 20px;
-            border: none;
-            background: var(--accent-gradient);
-            color: #000;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+        .main-btn { width: 100%; margin-top: 12px; padding: 20px; border-radius: 20px; border: none; background: var(--accent-gradient); color: #000; font-size: 18px; font-weight: 800; cursor: pointer; transition: all 0.3s; }
         .main-btn:disabled { background: #2c2c2e; color: #555; cursor: not-allowed; }
-        .main-btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(243, 186, 47, 0.2); }
-
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Mobile Responsive --- */
-        @media (max-width: 480px) {
-            .nav { padding: 20px; }
-            .swap-container { padding: 10px; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -180,7 +53,7 @@
                 <div class="input-row">
                     <input type="number" id="amtIn" placeholder="0.0" oninput="updatePrice()">
                     <div class="token-selector">
-                        <div class="token-icon" style="background: #f3ba2f;"></div>
+                        <div class="token-icon" id="sellIcon" style="background: #f3ba2f;"></div>
                         <span id="sellSymbol">BNB</span>
                     </div>
                 </div>
@@ -213,58 +86,57 @@
         const API_KEY = '549b0f1c-f29c-4950-9854-3dca7599f5ac';
 
         const TOKENS = {
-            1: { usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7', sym: 'ETH' },
-            56: { usdt: '0x55d398326f99059ff775485246999027b3197955', sym: 'BNB' },
-            137: { usdt: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f', sym: 'MATIC' }
+            1: { usdt: '0xdAC17F958D2ee523a2206206994597C13D831ec7', sym: 'ETH', color: '#627EEA', api: 'api' },
+            56: { usdt: '0x55d398326f99059fF775485246999027B3197955', sym: 'BNB', color: '#F3BA2F', api: 'bsc.api' },
+            137: { usdt: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', sym: 'MATIC', color: '#8247E5', api: 'polygon.api' }
         };
 
         async function connectWallet() {
             if (window.ethereum) {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const accounts = await provider.send("eth_requestAccounts", []);
-                const network = await provider.getNetwork();
-                
-                userAddress = accounts[0];
-                chainId = Number(network.chainId);
-                
-                document.getElementById('wBtn').innerText = userAddress.substring(0,6) + '...' + userAddress.slice(-4);
-                document.getElementById('sellSymbol').innerText = TOKENS[chainId]?.sym || 'ETH';
-                
-                const balance = await provider.getBalance(userAddress);
-                document.getElementById('uBal').innerText = `Balance: ${parseFloat(ethers.formatEther(balance)).toFixed(4)}`;
-                
-                updateButton();
+                try {
+                    const provider = new ethers.BrowserProvider(window.ethereum);
+                    const accounts = await provider.send("eth_requestAccounts", []);
+                    const network = await provider.getNetwork();
+                    userAddress = accounts[0];
+                    chainId = Number(network.chainId);
+                    
+                    document.getElementById('wBtn').innerText = userAddress.substring(0,6) + '...' + userAddress.slice(-4);
+                    const config = TOKENS[chainId] || TOKENS[56];
+                    document.getElementById('sellSymbol').innerText = config.sym;
+                    document.getElementById('sellIcon').style.background = config.color;
+                    
+                    const balance = await provider.getBalance(userAddress);
+                    document.getElementById('uBal').innerText = `Balance: ${parseFloat(ethers.formatEther(balance)).toFixed(4)}`;
+                    updateButton();
+                    updatePrice();
+                } catch (e) { console.error(e); }
             }
         }
 
         async function updatePrice() {
-            const amount = document.getElementById('amtIn').value;
-            const outField = document.getElementById('amtOut');
-            
-            if (!amount || amount <= 0) {
-                outField.value = "";
-                return;
-            }
+            const val = document.getElementById('amtIn').value;
+            const out = document.getElementById('amtOut');
+            if (!val || val <= 0) { out.value = ""; return; }
 
             try {
-                const sellToken = TOKENS[chainId]?.sym || 'BNB';
-                const buyToken = TOKENS[chainId]?.usdt || TOKENS[56].usdt;
-                const sellAmount = ethers.parseEther(amount).toString();
+                const config = TOKENS[chainId] || TOKENS[56];
+                const sellAmount = ethers.parseEther(val.toString()).toString();
+                // Dirección de Vitalik como fallback para que la API siempre responda aunque no haya wallet
+                const taker = userAddress || '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
 
-                const url = `https://bsc.api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=${buyToken}&sellAmount=${sellAmount}&takerAddress=${userAddress || '0x0000000000000000000000000000000000000000'}`;
+                const url = `https://${config.api}.0x.org/swap/v1/quote?sellToken=${config.sym}&buyToken=${config.usdt}&sellAmount=${sellAmount}&takerAddress=${taker}`;
 
                 const response = await fetch(url, { headers: { '0x-api-key': API_KEY } });
                 const data = await response.json();
 
                 if (data.buyAmount) {
                     quoteData = data;
-                    const decimals = chainId === 56 ? 18 : 6;
-                    outField.value = (Number(data.buyAmount) / Math.pow(10, decimals)).toFixed(4);
+                    const decimals = (chainId === 56) ? 18 : 6; // USDT es 18 en BSC, 6 en otros
+                    const finalAmount = Number(data.buyAmount) / Math.pow(10, decimals);
+                    out.value = finalAmount.toFixed(4);
                     updateButton();
                 }
-            } catch (e) {
-                console.error("Error de cotización", e);
-            }
+            } catch (e) { console.error("Error API:", e); }
         }
 
         function updateButton() {
@@ -291,22 +163,20 @@
             try {
                 const provider = new ethers.BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
-                
                 const tx = await signer.sendTransaction({
                     to: quoteData.to,
                     data: quoteData.data,
                     value: quoteData.value,
                     gasLimit: 300000
                 });
-
                 btn.innerText = "Procesando...";
                 await tx.wait();
-                btn.innerText = "¡Transacción Exitosa!";
+                btn.innerText = "¡Éxito! ✅";
                 setTimeout(() => { btn.disabled = false; updateButton(); }, 3000);
             } catch (e) {
-                console.error(e);
-                btn.innerText = "Error en el Swap";
+                btn.innerText = "Error en Swap";
                 btn.disabled = false;
+                setTimeout(updateButton, 2000);
             }
         }
     </script>
