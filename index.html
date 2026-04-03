@@ -3,78 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TelarMoney | Premium DEX</title>
+    <title>TelarSwap | Premium DEX</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #F3BA2F; --bg: #08080a;
             --card-bg: rgba(23, 23, 26, 0.7); --input-bg: rgba(0, 0, 0, 0.3);
-            --text-main: #ffffff; --text-dim: #98a1c0; --border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff; --text-dim: #98a1c0; --border: rgba(255, 255, 255, 0.1);
             --accent-gradient: linear-gradient(135deg, #F3BA2F 0%, #f3732f 100%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
         body {
             background-color: var(--bg);
-            background-image: radial-gradient(circle at 0% 0%, rgba(243, 186, 47, 0.08) 0%, transparent 40%), radial-gradient(circle at 100% 100%, rgba(243, 115, 47, 0.05) 0%, transparent 40%);
-            color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background-image: radial-gradient(circle at 0% 0%, rgba(243, 186, 47, 0.1) 0%, transparent 40%), 
+                              radial-gradient(circle at 100% 100%, rgba(243, 115, 47, 0.07) 0%, transparent 40%);
+            color: var(--text-main); min-height: 100vh; overflow-x: hidden;
         }
-        .nav { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); z-index: 100; }
-        .logo { font-weight: 800; font-size: 24px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-connect { background: rgba(243, 186, 47, 0.1); border: 1px solid rgba(243, 186, 47, 0.3); color: var(--primary); padding: 10px 20px; border-radius: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .swap-card { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 32px; padding: 15px; width: 400px; box-shadow: 0 40px 100px rgba(0,0,0,0.4); }
-        .token-section { background: var(--input-bg); border-radius: 24px; padding: 20px; margin-bottom: 8px; border: 1px solid transparent; }
+
+        .nav { position: fixed; top: 0; width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid var(--border); }
+        .logo { font-weight: 800; font-size: 26px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-connect { background: rgba(243, 186, 47, 0.1); border: 1px solid rgba(243, 186, 47, 0.3); color: var(--primary); padding: 12px 24px; border-radius: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-connect:hover { background: var(--primary); color: #000; }
+
+        /* Contenedor Principal Split */
+        .hero-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 120px auto 0;
+            padding: 0 5%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        /* Lado Izquierdo: Texto */
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 64px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
+        .hero-text h1 span { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-text p { color: var(--text-dim); font-size: 18px; line-height: 1.6; max-width: 500px; margin-bottom: 32px; }
+
+        /* Lado Derecho: Swap Card */
+        .swap-wrapper { flex: 0 0 420px; }
+        .swap-card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(30px); 
+            border: 1px solid var(--border); 
+            border-radius: 32px; 
+            padding: 24px; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.6); 
+        }
+
+        .token-section { background: var(--input-bg); border-radius: 24px; padding: 20px; margin-bottom: 8px; border: 1px solid transparent; transition: 0.2s; }
+        .token-section:focus-within { border-color: rgba(243, 186, 47, 0.3); }
         .label { color: var(--text-dim); font-size: 14px; font-weight: 600; margin-bottom: 12px; display: block; }
         .input-row { display: flex; justify-content: space-between; align-items: center; }
         .input-row input { background: transparent; border: none; color: #fff; font-size: 28px; font-weight: 700; width: 60%; outline: none; }
-        .token-selector { background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 16px; display: flex; align-items: center; gap: 8px; font-weight: 700; }
-        .divider { height: 48px; width: 48px; background: #1c1c1e; border: 4px solid var(--bg); border-radius: 14px; margin: -24px auto; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
-        .main-btn { width: 100%; margin-top: 12px; padding: 20px; border-radius: 20px; border: none; background: var(--accent-gradient); color: #000; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .main-btn:disabled { background: #2c2c2e; color: #555; cursor: not-allowed; }
+        .token-selector { background: rgba(255,255,255,0.05); padding: 8px 14px; border-radius: 18px; display: flex; align-items: center; gap: 10px; font-weight: 700; }
+        
+        .divider { height: 44px; width: 44px; background: #1c1c1e; border: 4px solid var(--bg); border-radius: 14px; margin: -22px auto; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; color: var(--primary); }
+        
+        .main-btn { width: 100%; margin-top: 16px; padding: 22px; border-radius: 24px; border: none; background: var(--accent-gradient); color: #000; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .main-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(243, 186, 47, 0.2); }
+        .main-btn:disabled { background: #2c2c2e; color: #555; cursor: not-allowed; transform: none; }
+
+        .toast { position: fixed; bottom: 30px; right: 30px; padding: 16px 28px; border-radius: 16px; color: #fff; font-weight: 700; display: none; animation: slideUp 0.4s ease; z-index: 1000; backdrop-filter: blur(10px); }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        @media (max-width: 968px) {
+            .hero-container { flex-direction: column; text-align: center; margin-top: 100px; }
+            .hero-text h1 { font-size: 42px; }
+            .hero-text p { margin: 0 auto 32px; }
+            .swap-wrapper { width: 100%; max-width: 420px; }
+        }
     </style>
 </head>
 <body>
 
     <nav class="nav">
-        <div class="logo">TelarMoney</div>
+        <div class="logo">TelarSwap</div>
         <button class="btn-connect" id="wBtn" onclick="connectWallet()">Conectar Wallet</button>
     </nav>
 
-    <div class="swap-card">
-        <div class="token-section">
-            <span class="label">Vendes</span>
-            <div class="input-row">
-                <input type="number" id="amtIn" placeholder="0.0" oninput="updatePrice()">
-                <div class="token-selector">
-                    <div style="width:20px; height:20px; border-radius:50%; background:#F3BA2F;"></div>
-                    <span>BNB</span>
-                </div>
+    <main class="hero-container">
+        <div class="hero-text">
+            <h1>Intercambios <span>Sin Límites</span></h1>
+            <p>Accede a la liquidez más profunda de la red BSC. Cambia tus activos de forma instantánea, segura y con las comisiones más bajas del mercado.</p>
+            <div style="display: flex; gap: 20px; justify-content: flex-start;" id="stats">
+                <div><h3 style="color: var(--primary)">$0.01</h3><small style="color: var(--text-dim)">Gas Promedio</small></div>
+                <div style="width: 1px; background: var(--border);"></div>
+                <div><h3 style="color: var(--primary)">3s</h3><small style="color: var(--text-dim)">Velocidad</small></div>
             </div>
         </div>
 
-        <div class="divider">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        </div>
-
-        <div class="token-section" style="margin-top:-8px; padding-top:32px;">
-            <span class="label">Recibes USDT</span>
-            <div class="input-row">
-                <input type="number" id="amtOut" placeholder="0.00" readonly>
-                <div class="token-selector">
-                    <div style="width:20px; height:20px; border-radius:50%; background:#26a17b;"></div>
-                    <span>USDT</span>
+        <div class="swap-wrapper">
+            <div class="swap-card">
+                <div class="token-section">
+                    <span class="label">Vendes</span>
+                    <div class="input-row">
+                        <input type="number" id="amtIn" placeholder="0.0" oninput="updatePrice()">
+                        <div class="token-selector">
+                            <div style="width:22px; height:22px; border-radius:50%; background:#F3BA2F;"></div>
+                            <span>BNB</span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="divider">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                </div>
+
+                <div class="token-section" style="margin-top:-8px; padding-top:32px;">
+                    <span class="label">Recibes (Estimado)</span>
+                    <div class="input-row">
+                        <input type="number" id="amtOut" placeholder="0.00" readonly>
+                        <div class="token-selector">
+                            <div style="width:22px; height:22px; border-radius:50%; background:#26a17b;"></div>
+                            <span>USDT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="main-btn" id="sBtn" onclick="handleAction()">Conectar Wallet</button>
             </div>
         </div>
+    </main>
 
-        <button class="main-btn" id="sBtn" onclick="handleAction()">Conectar Wallet</button>
-    </div>
+    <div id="toast" class="toast"></div>
 
     <script>
         let userAddress = null;
         const PAN_ROUTER = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
         const WBNB = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
         const USDT = "0x55d398326f99059fF775485246999027B3197955";
+
+        function showToast(msg, isError = true) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.background = isError ? "rgba(255, 60, 60, 0.9)" : "rgba(40, 190, 100, 0.9)";
+            t.style.display = "block";
+            setTimeout(() => t.style.display = "none", 4000);
+        }
 
         async function connectWallet() {
             if (window.ethereum) {
@@ -84,8 +154,8 @@
                     userAddress = accounts[0];
                     document.getElementById('wBtn').innerText = userAddress.substring(0,6) + "...";
                     updateButton();
-                    updatePrice();
-                } catch (e) { console.error("Error al conectar wallet", e); }
+                    showToast("Billetera vinculada", false);
+                } catch (e) { console.error(e); }
             }
         }
 
@@ -94,88 +164,52 @@
             const out = document.getElementById('amtOut');
             if (!val || val <= 0) { out.value = ""; return; }
 
-            const nodes = ["https://bsc-dataseed.binance.org/", "https://rpc.ankr.com/bsc", "https://binance.llamarpc.com"];
-            
-            for (let node of nodes) {
-                try {
-                    const rpcProvider = new ethers.JsonRpcProvider(node);
-                    const router = new ethers.Contract(PAN_ROUTER, 
-                        ["function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)"], 
-                        rpcProvider);
-
-                    const amountIn = ethers.parseEther(val.toString());
-                    const amounts = await router.getAmountsOut(amountIn, [WBNB, USDT]);
-                    
-                    out.value = parseFloat(ethers.formatUnits(amounts[1], 18)).toFixed(2);
-                    updateButton();
-                    return;
-                } catch (e) {
-                    console.warn(`Fallo en nodo ${node}`);
-                }
-            }
-            out.placeholder = "Error de red";
+            try {
+                const rpcProvider = new ethers.JsonRpcProvider("https://rpc.ankr.com/bsc");
+                const router = new ethers.Contract(PAN_ROUTER, ["function getAmountsOut(uint amountIn, address[] memory path) view returns (uint[] memory)"], rpcProvider);
+                const amounts = await router.getAmountsOut(ethers.parseEther(val.toString()), [WBNB, USDT]);
+                out.value = parseFloat(ethers.formatUnits(amounts[1], 18)).toFixed(2);
+                updateButton();
+            } catch (e) { console.warn("Error precio"); }
         }
 
         function updateButton() {
             const btn = document.getElementById('sBtn');
             const val = document.getElementById('amtIn').value;
-            if (!userAddress) {
-                btn.innerText = "Conectar Wallet";
-            } else if (!val || val <= 0) {
-                btn.innerText = "Ingresa un monto";
-            } else {
-                btn.innerText = "Intercambiar Ahora";
-            }
+            if (!userAddress) btn.innerText = "Conectar Wallet";
+            else if (!val || val <= 0) btn.innerText = "Ingresa un monto";
+            else btn.innerText = "Intercambiar Ahora";
         }
 
         async function handleAction() {
             if (!userAddress) return connectWallet();
-            
             const val = document.getElementById('amtIn').value;
             const btn = document.getElementById('sBtn');
             
             try {
-                const browserProvider = new ethers.BrowserProvider(window.ethereum);
-                const signer = await browserProvider.getSigner();
-                
-                // Verificación de saldo antes de enviar
-                const balance = await browserProvider.getBalance(userAddress);
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const balance = await provider.getBalance(userAddress);
                 const amountIn = ethers.parseEther(val.toString());
 
-                if (balance < amountIn) {
-                    btn.innerText = "Saldo Insuficiente";
-                    setTimeout(updateButton, 2000);
-                    return;
-                }
+                if (balance < amountIn) return showToast("⚠️ No tienes suficiente BNB");
 
-                const routerContract = new ethers.Contract(PAN_ROUTER, [
-                    "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts)"
-                ], signer);
-
-                btn.innerText = "Firma en MetaMask...";
+                const contract = new ethers.Contract(PAN_ROUTER, ["function swapExactETHForTokens(uint outMin, address[] path, address to, uint dead) payable"], signer);
+                
+                btn.innerText = "Esperando firma...";
                 btn.disabled = true;
 
-                const tx = await routerContract.swapExactETHForTokens(
-                    0, 
-                    [WBNB, USDT],
-                    userAddress,
-                    Math.floor(Date.now() / 1000) + 60 * 20,
-                    { 
-                        value: amountIn,
-                        gasLimit: 250000 
-                    }
-                );
-
-                btn.innerText = "Procesando...";
+                const tx = await contract.swapExactETHForTokens(0, [WBNB, USDT], userAddress, Math.floor(Date.now()/1000)+1200, { value: amountIn, gasLimit: 250000 });
+                
+                showToast("🚀 Transacción enviada", false);
                 await tx.wait();
-                btn.innerText = "¡Hecho! ✅";
-                setTimeout(() => { btn.disabled = false; updateButton(); }, 3000);
-
-            } catch (e) {
-                console.error(e);
-                btn.innerText = (e.code === 'ACTION_REJECTED') ? "Rechazado" : "Error de Red/Gas";
+                showToast("✅ ¡Swap exitoso!", false);
                 btn.disabled = false;
-                setTimeout(updateButton, 2000);
+                updateButton();
+            } catch (e) {
+                showToast(e.code === 'ACTION_REJECTED' ? "Firma rechazada" : "Error de transacción");
+                btn.disabled = false;
+                updateButton();
             }
         }
     </script>
